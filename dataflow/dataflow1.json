@@ -1,0 +1,84 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CustomerDB",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "HRdb",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "FinanceDB",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "split2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Cust_ID as integer,",
+				"          Customer_Name as string,",
+				"          Dept_ID as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 split(Dept_ID == 100,",
+				"     Dept_ID == 500,",
+				"     disjoint: false) ~> split2@(HR, Finance)",
+				"split2@HR sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Cust_ID as integer,",
+				"          Customer_Name as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Cust_ID,",
+				"          Customer_Name",
+				"     )) ~> sink1",
+				"split2@Finance sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Cust_ID as integer,",
+				"          Customer_Name as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+			]
+		}
+	}
+}

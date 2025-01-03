@@ -1,0 +1,159 @@
+{
+	"name": "cdcTask",
+	"properties": {
+		"SourceConnectionsInfo": [
+			{
+				"SourceEntities": [
+					{
+						"name": "dbo.Employee",
+						"properties": {
+							"schema": [],
+							"dslConnectorProperties": [
+								{
+									"name": "schemaName",
+									"value": "dbo"
+								},
+								{
+									"name": "tableName",
+									"value": "Employee"
+								},
+								{
+									"name": "enableNativeCdc",
+									"value": true
+								},
+								{
+									"name": "netChanges",
+									"value": true
+								}
+							]
+						}
+					}
+				],
+				"Connection": {
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase3",
+						"type": "LinkedServiceReference"
+					},
+					"linkedServiceType": "AzureSqlDatabase",
+					"type": "linkedservicetype",
+					"isInlineDataset": true,
+					"commonDslConnectorProperties": [
+						{
+							"name": "allowSchemaDrift",
+							"value": true
+						},
+						{
+							"name": "inferDriftedColumnTypes",
+							"value": true
+						},
+						{
+							"name": "format",
+							"value": "table"
+						},
+						{
+							"name": "store",
+							"value": "sqlserver"
+						},
+						{
+							"name": "databaseType",
+							"value": "databaseType"
+						},
+						{
+							"name": "database",
+							"value": "database"
+						},
+						{
+							"name": "skipInitialLoad",
+							"value": true
+						}
+					]
+				}
+			}
+		],
+		"TargetConnectionsInfo": [
+			{
+				"TargetEntities": [
+					{
+						"name": "swamesha",
+						"properties": {
+							"schema": [],
+							"dslConnectorProperties": [
+								{
+									"name": "container",
+									"value": "swamesha"
+								},
+								{
+									"name": "fileSystem",
+									"value": "swamesha"
+								}
+							]
+						}
+					}
+				],
+				"Connection": {
+					"linkedService": {
+						"referenceName": "AzureBlobStorage2",
+						"type": "LinkedServiceReference"
+					},
+					"linkedServiceType": "AzureBlobStorage",
+					"type": "linkedservicetype",
+					"isInlineDataset": true,
+					"commonDslConnectorProperties": [
+						{
+							"name": "allowSchemaDrift",
+							"value": true
+						},
+						{
+							"name": "inferDriftedColumnTypes",
+							"value": true
+						},
+						{
+							"name": "format",
+							"value": "delimited"
+						},
+						{
+							"name": "columnNamesAsHeader",
+							"value": true
+						},
+						{
+							"name": "columnDelimiter",
+							"value": ","
+						},
+						{
+							"name": "escapeChar",
+							"value": "\\\\"
+						},
+						{
+							"name": "quoteChar",
+							"value": "\\\""
+						}
+					]
+				},
+				"DataMapperMappings": [
+					{
+						"targetEntityName": "swamesha",
+						"sourceEntityName": "dbo.Employee",
+						"sourceConnectionReference": {
+							"connectionName": "AzureSqlDatabase3",
+							"type": "linkedservicetype"
+						},
+						"attributeMappingInfo": {
+							"attributeMappings": []
+						}
+					}
+				],
+				"Relationships": []
+			}
+		],
+		"Policy": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1
+			},
+			"mode": "Microbatch"
+		},
+		"status": "PipelineRunCreated",
+		"allowVNetOverride": false,
+		"id": "add150dc2b9640a9933eaf431a704012"
+	}
+}

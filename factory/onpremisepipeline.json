@@ -1,0 +1,17 @@
+{
+	"name": "onpremisepipeline",
+	"properties": {
+		"globalParameters": {
+			"Environment": {
+				"type": "string",
+				"value": "Production "
+			}
+		}
+	},
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6af296be-f6cc-49a3-93a0-b393c66a9086",
+		"tenantId": "818467cf-44b9-45a5-a41a-1ef924fcd795"
+	}
+}
